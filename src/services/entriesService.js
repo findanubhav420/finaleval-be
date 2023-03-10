@@ -1,80 +1,56 @@
-const { v4: uuidv4 } = require('uuid');
-const { Entries } = require('../../database/models');
+const {entries, collections} = require('../../database/models/index');
 
-const getAllEntriesServices = async () => {
-    try {
-        const data = await Entries.findAll();
-        if(data.length === 0){
-            return 'No entries found';
-        }
-        return data[0].dataValues;
-    } catch (e) {
-        throw new Error(e);
+const getCollection = async (id) => {
+  const collection = await collections.findOne({
+    where: {
+      id: id
     }
-}
+  });
+  return collection;
+};
 
-const getEntryByContentTypeServices = async (id) => {
-    try {
-        const data = await Entries.findAll({
-            where: {
-                content_id: id
-            }
-        });
-        return data;
-    } catch (e) {
-        throw new Error(e);
+const getAllCollections = async () => {
+  const allCollections = await collections.findAll();
+  return allCollections;
+};
+
+const createEntry = async (collectionId, content_type_entries) => {
+  const newEntry = await entries.create({
+    collection_id: collectionId,
+    content_type_entries: content_type_entries
+  });
+  return newEntry.dataValues;
+};
+
+const getAllEntriesByCollectionId = async (collectionId) => {
+  const allEntries = await entries.findAll({
+    where: {
+      collection_id: collectionId
     }
-}
+  });
+  return allEntries;
+};
 
-const createEntryByContentTypeServices = async (id, entry) => {
-  const entryId = uuidv4();
-    try {
-        const data = await Entries.create({
-            content_id: id,
-            entry_id : entryId,
-            entry: entry
+const updateEntry = async (entryId, content_type_entries) => {
+  const updatedEntry = await entries.update({
+    content_type_entries: content_type_entries
+  }, {
+    where: {
+      id: entryId
+    },
+    returning: true,
+    plain: true
+  });
+  return updatedEntry[1].dataValues;
+};
 
-        });
-        return data;
-    } catch (e) {
-        throw new Error(e);
+const deleteEntry = async (entryId) => {
+  const deletedEntry = await entries.destroy({
+    where: {
+      id: entryId
     }
-}
+  });
+  return deletedEntry;
+};
 
-const deleteEntryByContentTypeServices = async (id) => {
-    try {
-        const data = await Entries.destroy({
-            where: {
-                id: id
-            }
-        });
-        return data;
-    } catch (e) {
-        throw new Error(e);
-    }
-}
-
-const updateEntryByContentTypeServices = async (id, entry) => {
-    try {
-        const data = await Entries.update({
-            entry: entry
-        }, {
-            where: {
-                id: id
-            }
-
-        });
-        return data;
-    } catch (e) {
-        throw new Error(e);
-    }
-}
-
-
-module.exports = {
-    getAllEntriesServices,
-    getEntryByContentTypeServices,
-    createEntryByContentTypeServices,
-    deleteEntryByContentTypeServices,
-    updateEntryByContentTypeServices
-}
+module.exports = { getCollection, getAllCollections, createEntry, getAllEntriesByCollectionId, updateEntry, deleteEntry };

@@ -1,8 +1,15 @@
-const express = require('express');
-contentTypeRouter = express.Router();
-const { getAllContentTypesControllers, createContentTypeControllers } = require('../controllers/contentTypeController');
+const ContentTypeRouter = require('express').Router();
+const ContentTypeController = require('../controllers/contentTypeController');
+const { validate } = require('../middlewares/authValidation');
 
-contentTypeRouter.get('/', getAllContentTypesControllers);
-contentTypeRouter.post('/', createContentTypeControllers);
+ContentTypeRouter.route('/')
+  .get(validate, ContentTypeController.getContentTypes)
+  .post(validate, ContentTypeController.createContentType);
 
-module.exports = contentTypeRouter;
+ContentTypeRouter.route('/:id')
+  .get(validate, ContentTypeController.getContentTypeById)
+  .patch(validate, ContentTypeController.updateContentTypeName)
+  .post(validate, ContentTypeController.addField)
+  .delete(validate, ContentTypeController.deleteField);
+
+module.exports = ContentTypeRouter;

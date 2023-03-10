@@ -1,18 +1,18 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const port = 8080;
 const cors = require('cors');
-app.use(express.json());
+
 app.use(cors());
+app.use(express.json());
 
-const contentTypeRoutes = require('./src/routes/contentTypeRoutes');
-const entriesRoutes = require('./src/routes/entriesRoute');
-const fieldRoutes = require('./src/routes/fieldRoutes');
+const ContentTypeRouter = require('./src/routes/contentTypeRoutes');
+const EntriesRouter = require('./src/routes/entriesRoutes');
 
-app.use('/contentTypes', contentTypeRoutes);
-app.use('/entries', entriesRoutes);
-app.use('/fields', fieldRoutes);
+app.use('/content_types', ContentTypeRouter);
+app.use('/collections', EntriesRouter);
 
 app.listen(port, () => {
-  console.log(`started listening on port ${port}`);
-});
+  console.log(`Listening on port ${port}`);
+});                         

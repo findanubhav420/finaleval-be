@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Fields extends Model {
+  class content_types extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,12 +13,17 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Fields.init({
-    content_id: DataTypes.UUID,
-    field_title: DataTypes.ARRAY(DataTypes.STRING)
+  content_types.init({
+    id: {
+      primaryKey: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4
+    },
+    name: DataTypes.STRING,
+    fields: DataTypes.JSON
   }, {
     sequelize,
-    modelName: 'Fields',
+    modelName: 'content_types',
   });
-  return Fields;
+  return content_types;
 };

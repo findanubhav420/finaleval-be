@@ -2,22 +2,19 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Entries', {
+    await queryInterface.createTable('collections', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      entry_id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4
       },
-      content_id: {
-        type: Sequelize.UUID
+      name: {
+        type: Sequelize.STRING,
+        unique: true
       },
-      entry: {
-        type: Sequelize.JSON
+      content_type_id: {
+        type: Sequelize.UUID,
       },
       createdAt: {
         allowNull: false,
@@ -30,6 +27,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Entries');
+    await queryInterface.dropTable('collections');
   }
 };

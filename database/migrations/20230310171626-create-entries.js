@@ -2,19 +2,18 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Contents', {
+    await queryInterface.createTable('entries', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      content_id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4
       },
-      content_title: {
-        type: Sequelize.STRING
+      collection_id: {
+        type: Sequelize.UUID,
+      },
+      content_type_entries: {
+        type: Sequelize.JSON
       },
       createdAt: {
         allowNull: false,
@@ -27,6 +26,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Contents');
+    await queryInterface.dropTable('entries');
   }
 };
