@@ -2,21 +2,18 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('cmsTables', {
+    await queryInterface.createTable('Fields', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      content_type: {
-        type: Sequelize.STRING
+      content_id: {
+        type: Sequelize.UUID
       },
-      features: {
+      field_title: {
         type: Sequelize.ARRAY(Sequelize.STRING)
-      },
-      entries: {
-        type: Sequelize.ARRAY(Sequelize.JSON)
       },
       createdAt: {
         allowNull: false,
@@ -29,6 +26,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('cmsTables');
+    await queryInterface.dropTable('Fields');
   }
 };
