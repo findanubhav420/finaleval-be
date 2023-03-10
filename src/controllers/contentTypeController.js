@@ -13,8 +13,8 @@ const getAllContentTypesControllers = async (req, res) => {
 
 const createContentTypeControllers = async (req, res) => {
     try{
-    const { name } = req.body;
-    const data = await createContentTypeServices(name);
+    const { content_title } = req.body;
+    const data = await createContentTypeServices(content_title);
     return res.status(200).json(data);
     } catch (e) {
         res.status(500).json({

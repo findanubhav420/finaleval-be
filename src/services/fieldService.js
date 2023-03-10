@@ -27,8 +27,26 @@ const createFieldByContentTypeServices = async (id,field_title) => {
     }
 }
 
+const updateFieldByContentTypeServices = async (id,field_title) => {
+    try{
+    const data = await Fields.update({
+        field_title: field_title
+    }, {
+        where: {
+            id: id
+        }
+    });
+    return data;
+}
+    catch (err) {
+        throw new Error(err);
+    }
+}
+
+
 
 module.exports = {
     getAllFieldsByContentTypeServices,
-    createFieldByContentTypeServices
+    createFieldByContentTypeServices,
+    updateFieldByContentTypeServices
 }
